@@ -1,48 +1,19 @@
-// /**
-//  * Sample React Native App
-//  * https://github.com/facebook/react-native
-//  *
-//  * @format
-//  */
-
-// import { NewAppScreen } from '@react-native/new-app-screen';
-// import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-
-// function App() {
-//   const isDarkMode = useColorScheme() === 'dark';
-
-//   return (
-//     <View style={styles.container}>
-//       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-//       <NewAppScreen templateFileName="App.tsx" />
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-// });
-
-// export default App;
-
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'react-native';
-import { DataProvider } from './src/DataContext';
+import { DataProvider } from './DataContext';
 
 // Import screens
-import LandingScreen from './src/screens/LandingScreen';
-import AdminLoginScreen from './src/screens/AdminLoginScreen';
-import AdminDashboardScreen from './src/screens/AdminDashboardScreen';
-import DoctorListScreen from './src/screens/DoctorListScreen';
-import DispensaryListScreen from './src/screens/DispensaryListScreen';
-import AppointmentBookingScreen from './src/screens/AppointmentBookingScreen';
-import AppointmentConfirmationScreen from './src/screens/AppointmentConfirmationScreen';
-import AddDoctorScreen from './src/screens/AddDoctorScreen';
-import AddDispensaryScreen from './src/screens/AddDispensaryScreen';
+import LandingScreen from './screens/LandingScreen';
+import AdminLoginScreen from './screens/AdminLoginScreen';
+import AdminDashboardScreen from './screens/AdminDashboardScreen';
+import DoctorListScreen from './screens/DoctorListScreen';
+import DispensaryListScreen from './screens/DispensaryListScreen';
+import AppointmentBookingScreen from './screens/AppointmentBookingScreen';
+import AppointmentConfirmationScreen from './screens/AppointmentConfirmationScreen';
+import AddDoctorScreen from './screens/AddDoctorScreen';
+import AddDispensaryScreen from './screens/AddDispensaryScreen';
 
 export type RootStackParamList = {
   Landing: undefined;
