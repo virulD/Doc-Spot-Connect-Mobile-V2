@@ -35,13 +35,29 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Install specific NDK version
-        run: sdkmanager --install 'ndk;23.1.7779620'
+        run: |
+          sdkmanager --uninstall 'ndk;27.1.12297006' || true
+          sdkmanager --install 'ndk;23.1.7779620'
+          sdkmanager --list | grep ndk
 
       - name: Grant execute permission for gradlew
         run: chmod +x android/gradlew
 
       - name: Clean Android build
         run: cd android && ./gradlew clean
+
+      - name: Verify NDK version
+        run: |
+          echo "Available NDK versions:"
+          ls -la $ANDROID_HOME/ndk/
+          echo "Current NDK version in build.gradle:"
+          grep "ndkVersion" android/build.gradle
+
+      - name: Create local.properties for CI
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > android/local.properties
+          echo "ndk.dir=$ANDROID_HOME/ndk/23.1.7779620" >> android/local.properties
+          cat android/local.properties
 
       - name: Build Release APK
         run: cd android && ./gradlew assembleRelease --warning-mode all --stacktrace
