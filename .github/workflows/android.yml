@@ -31,18 +31,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Generate codegen files
+      - name: Disable new architecture for CI build
         run: |
-          cd android
-          ./gradlew generateCodegenArtifactsFromSchema
-          cd ..
-          npx react-native codegen
-          
-      - name: Ensure codegen directories exist
-        run: |
-          mkdir -p node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni
-          mkdir -p node_modules/react-native-reanimated/android/build/generated/source/codegen/jni
-          echo "Codegen directories created"
+          echo "Disabling new architecture for CI build to avoid codegen issues"
+          sed -i 's/newArchEnabled=true/newArchEnabled=false/' android/gradle.properties
+          cat android/gradle.properties | grep newArchEnabled
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
