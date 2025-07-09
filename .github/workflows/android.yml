@@ -31,8 +31,18 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Install Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Generate codegen files
+        run: |
+          cd android
+          ./gradlew generateCodegenArtifactsFromSchema
+          cd ..
+          npx react-native codegen
+          
+      - name: Ensure codegen directories exist
+        run: |
+          mkdir -p node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni
+          mkdir -p node_modules/react-native-reanimated/android/build/generated/source/codegen/jni
+          echo "Codegen directories created"
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
