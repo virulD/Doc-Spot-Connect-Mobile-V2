@@ -34,11 +34,12 @@ jobs:
       - name: Install Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install specific NDK version
-        run: |
-          sdkmanager --uninstall 'ndk;27.1.12297006' || true
-          sdkmanager --install 'ndk;23.1.7779620'
-          sdkmanager --list | grep ndk
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          cmake-version: 3.22.1
+          ndk-version: 26.1.10909125
+
 
       - name: Grant execute permission for gradlew
         run: chmod +x android/gradlew
@@ -56,7 +57,7 @@ jobs:
       - name: Create local.properties for CI
         run: |
           echo "sdk.dir=$ANDROID_HOME" > android/local.properties
-          echo "ndk.dir=$ANDROID_HOME/ndk/23.1.7779620" >> android/local.properties
+          echo "ndk.dir=$ANDROID_HOME/ndk/26.1.10909125" >> android/local.properties
           cat android/local.properties
 
       - name: Build Release APK
