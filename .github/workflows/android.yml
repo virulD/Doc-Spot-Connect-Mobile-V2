@@ -63,6 +63,11 @@ jobs:
           echo "ndk.dir=$ANDROID_HOME/ndk/26.1.10909125" >> android/local.properties
           cat android/local.properties
 
+      - name: Workaround: Create missing codegen dirs for RNGH and Reanimated
+        run: |
+          mkdir -p node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni
+          mkdir -p node_modules/react-native-reanimated/android/build/generated/source/codegen/jni
+
       - name: Build Debug APK
         run: cd android && ./gradlew assembleDebug --warning-mode all --stacktrace
 
