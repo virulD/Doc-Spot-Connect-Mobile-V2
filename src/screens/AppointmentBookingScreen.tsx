@@ -18,6 +18,7 @@ import axios from 'axios';
 import Geolocation from 'react-native-geolocation-service';
 import { PermissionsAndroid, Platform } from 'react-native';
 import { Alert } from 'react-native';
+import TimeSlotComponent from '../components/timeslotComponent';
 
 const TIME_SLOTS = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00'];
 
@@ -120,8 +121,17 @@ export default function AppointmentBookingScreen({ navigation }: Props) {
             setTimeSlotsError('API error: ' + JSON.stringify(data));
             return;
           }
-          setFetchedTimeSlots(data);
-          setTimeSlotsError('Fetch succeeded: ' + JSON.stringify(data)); // TEMP: show in UI for debug
+          // Flatten availableDays into time slots
+          let slots = [];
+          if (data && Array.isArray(data.availableDays)) {
+            slots = data.availableDays.map((day: any) => ({
+              date: day.date,
+              dayName: day.dayName,
+              startTime: day.startTime,
+              endTime: day.endTime
+            }));
+          }
+          setFetchedTimeSlots(slots);
         } catch (err: any) {
           console.log('Fetch error:', err);
           setTimeSlotsError('Fetch error: ' + (err.message || 'Error fetching time slots'));
@@ -394,19 +404,16 @@ export default function AppointmentBookingScreen({ navigation }: Props) {
               {!timeSlotsLoading && !timeSlotsError && fetchedTimeSlots.length > 0 && (
                 <View>
                   {fetchedTimeSlots.map((slot, idx) => (
-                    <View key={idx} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-                      <Text style={{ flex: 1, fontSize: 16 }}>{slot.time || slot}</Text>
-                      <TouchableOpacity
-                        style={[styles.submitButton, { flex: 0, paddingVertical: 8, paddingHorizontal: 16, marginTop: 0 }]}
-                        onPress={() => {
-                          setSelectedTime(slot.time || slot);
-                          setSelectedDate(slot.date ? new Date(slot.date) : new Date());
-                          handleNextStep();
-                        }}
-                      >
-                        <Text style={styles.submitButtonText}>Book Now</Text>
-                      </TouchableOpacity>
-                    </View>
+                    <TimeSlotComponent
+                      key={idx}
+                      date={slot.date ? new Date(slot.date).toLocaleDateString() : ''}
+                      time={slot.startTime && slot.endTime ? `${slot.startTime} - ${slot.endTime}` : slot.time || ''}
+                      onSelect={() => {
+                        setSelectedTime(slot.startTime || slot.time || '');
+                        setSelectedDate(slot.date ? new Date(slot.date) : new Date());
+                        handleNextStep();
+                      }}
+                    />
                   ))}
                 </View>
               )}
