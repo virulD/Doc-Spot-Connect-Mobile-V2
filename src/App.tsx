@@ -14,6 +14,8 @@ import AppointmentBookingScreen from './screens/AppointmentBookingScreen';
 import AppointmentConfirmationScreen from './screens/AppointmentConfirmationScreen';
 import AddDoctorScreen from './screens/AddDoctorScreen';
 import AddDispensaryScreen from './screens/AddDispensaryScreen';
+import ManageDoctorsScreen from './screens/ManageDoctorsScreen';
+import ManageDispensariesScreen from './screens/ManageDispensariesScreen';
 
 export type RootStackParamList = {
   Landing: undefined;
@@ -25,6 +27,8 @@ export type RootStackParamList = {
   AppointmentConfirmation: { appointmentId: string; date: string; time: string };
   AddDoctor: undefined;
   AddDispensary: undefined;
+  ManageDoctors: undefined;
+  ManageDispensaries: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -91,6 +95,18 @@ export default function App() {
             component={AddDispensaryScreen}
             options={{ title: 'Add Dispensary' }}
           />
+          <Stack.Screen 
+            name="ManageDoctors" 
+            component={ManageDoctorsScreen}
+            options={{ title: 'Manage Doctors' }}
+          />
+          <Stack.Screen 
+            name="ManageDispensaries" 
+            component={ManageDispensariesScreen}
+            options={{ title: 'Manage Dispensaries' }}
+          />
+
+
         </Stack.Navigator>
       </NavigationContainer>
     </DataProvider>

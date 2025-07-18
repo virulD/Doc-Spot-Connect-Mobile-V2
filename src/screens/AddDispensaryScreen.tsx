@@ -18,6 +18,8 @@ export default function AddDispensaryScreen({ navigation }: Props) {
   const [form, setForm] = useState({
     name: '',
     address: '',
+    latitude: '',
+    longitude: '',
     phone: '',
     services: '',
     image: '',
@@ -29,14 +31,16 @@ export default function AddDispensaryScreen({ navigation }: Props) {
   };
 
   const handleSubmit = () => {
-    if (!form.name || !form.address) {
-      Alert.alert('Error', 'Name and Address are required');
+    if (!form.name || !form.address || !form.latitude || !form.longitude) {
+      Alert.alert('Error', 'Name, Address, Latitude, and Longitude are required');
       return;
     }
     addDispensary({
       id: generateId(),
       name: form.name,
       address: form.address,
+      latitude: parseFloat(form.latitude),
+      longitude: parseFloat(form.longitude),
       distance: '0.1 km',
       rating: 4.5,
       isOpen: true,
@@ -55,6 +59,10 @@ export default function AddDispensaryScreen({ navigation }: Props) {
         <TextInput style={styles.input} value={form.name} onChangeText={v => handleChange('name', v)} placeholder="Dispensary Name" />
         <Text style={styles.label}>Address *</Text>
         <TextInput style={styles.input} value={form.address} onChangeText={v => handleChange('address', v)} placeholder="Address" />
+        <Text style={styles.label}>Latitude *</Text>
+        <TextInput style={styles.input} value={form.latitude} onChangeText={v => handleChange('latitude', v)} placeholder="e.g. 40.7128" keyboardType="numeric" />
+        <Text style={styles.label}>Longitude *</Text>
+        <TextInput style={styles.input} value={form.longitude} onChangeText={v => handleChange('longitude', v)} placeholder="e.g. -74.0060" keyboardType="numeric" />
         <Text style={styles.label}>Phone</Text>
         <TextInput style={styles.input} value={form.phone} onChangeText={v => handleChange('phone', v)} placeholder="Phone Number" keyboardType="phone-pad" />
         <Text style={styles.label}>Services (comma separated)</Text>

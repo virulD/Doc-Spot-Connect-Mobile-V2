@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
+import { useNavigation } from '@react-navigation/native';
 
 type AdminDashboardScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'AdminDashboard'>;
 
@@ -16,7 +17,8 @@ interface Props {
   navigation: AdminDashboardScreenNavigationProp;
 }
 
-export default function AdminDashboardScreen({ navigation }: Props) {
+export default function AdminDashboardScreen() {
+  const navigation = useNavigation();
   const stats = {
     totalAppointments: 156,
     todayAppointments: 12,
@@ -75,12 +77,12 @@ export default function AdminDashboardScreen({ navigation }: Props) {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Quick Actions</Text>
           <View style={styles.actionsContainer}>
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('ManageDoctors')}>
               <Text style={styles.actionIcon}>👥</Text>
               <Text style={styles.actionText}>Manage Doctors</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('ManageDispensaries')}>
               <Text style={styles.actionIcon}>🏥</Text>
               <Text style={styles.actionText}>Manage Dispensaries</Text>
             </TouchableOpacity>
@@ -124,6 +126,22 @@ export default function AdminDashboardScreen({ navigation }: Props) {
         >
           <Text style={styles.logoutButtonText}>Logout</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('ManageDispensaries')}>
+          <Text>Go to Manage Dispensaries</Text>
+        </TouchableOpacity>
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ViewBookings')}>
+            <Text style={styles.buttonText}>View Bookings</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('TimeSlotManagement')}>
+            <Text style={styles.buttonText}>Time Slots Management</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('GenerateReport')}>
+            <Text style={styles.buttonText}>Generate Report</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -304,5 +322,20 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 15,
+  },
+  buttonContainer: {
+    marginTop: 40,
+  },
+  button: {
+    backgroundColor: '#4A90E2',
+    marginBottom: 24,
+    padding: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
 });

@@ -44,10 +44,26 @@ jobs:
     - name: Make Gradlew executable
       run: chmod +x android/gradlew
       
-    - name: Build Android APK
+    # - name: Build Android APK
+    #   run: |
+    #     cd android
+    #     ./gradlew clean
+    #     ./gradlew assembleRelease --stacktrace --info --warning-mode all
+
+        - name: Build Android APK
       run: |
         cd android
         ./gradlew clean
+      env:
+        ANDROID_HOME: ${{ env.ANDROID_HOME }}
+        GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx4096m"
+
+    - name: Run React Native Codegen
+      run: npx react-native codegen
+
+    - name: Assemble APK
+      run: |
+        cd android
         ./gradlew assembleRelease --stacktrace --info --warning-mode all
       env:
         ANDROID_HOME: ${{ env.ANDROID_HOME }}

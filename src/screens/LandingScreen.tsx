@@ -34,18 +34,9 @@ export default function LandingScreen({ navigation }: Props) {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[styles.button, styles.primaryButton]}
-            onPress={() => navigation.navigate('DoctorList')}
+            onPress={() => navigation.navigate('AppointmentBooking', {})}
           >
-            <Text style={styles.buttonText}>Find Doctors</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.button, styles.secondaryButton]}
-            onPress={() => navigation.navigate('DispensaryList')}
-          >
-            <Text style={[styles.buttonText, styles.secondaryButtonText]}>
-              Find Dispensaries
-            </Text>
+            <Text style={styles.buttonText}>Book an Appointment</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -54,6 +45,15 @@ export default function LandingScreen({ navigation }: Props) {
           >
             <Text style={[styles.buttonText, styles.adminButtonText]}>
               Admin Login
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.button, styles.secondaryButton]}
+            onPress={() => navigation.navigate('ManageDoctors')}
+          >
+            <Text style={[styles.buttonText, styles.secondaryButtonText]}>
+              Manage Doctors
             </Text>
           </TouchableOpacity>
         </View>
